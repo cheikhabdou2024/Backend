@@ -10,11 +10,7 @@
     command: [ "node", "app.js" ]
 
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=Samamotdepass1
+      
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     depends_on:
