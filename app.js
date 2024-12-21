@@ -11,7 +11,7 @@ const userRoutes = require('./src/routes/user-routes');
 const liveRoutes = require('./src/routes/live-routes');
 
 require('dotenv').config({ path: '../../.env' });
-require('./src/config/passeport-setup');
+require('./src/config/passport-setup');
 
 const http = require('http'); // Pour créer un serveur HTTP
 const { Server } = require('socket.io'); // Optionnel, pour vérifier si une autre partie nécessite Socket.IO
