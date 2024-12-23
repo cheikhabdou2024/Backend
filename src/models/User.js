@@ -37,9 +37,10 @@ const User = sequelize.define('User', {
     timestamps: true
 });
 
+// Import the Video model and establish associations
+const Video = require('./Video');
+
+User.hasMany(Video, { foreignKey: 'userId', as: 'videos' });
+Video.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
 module.exports = User;
-
-
-
-
-
