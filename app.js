@@ -1,16 +1,17 @@
-// Updated app.js with CORS configuration
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
+const cors = require('cors'); // Import CORS
 const sequelize = require('./src/config/database');
 const User = require('./src/models/User');
+const Video = require('./src/models/Video');
 const authRoutes = require('./src/routes/auth-routes');
 const signalingServer = require('./src/signaling/webrtc-signaling-server');
 const globalErrorHandler = require('./src/middlewares/error-middleware');
 const rateLimiter = require('./src/middlewares/rate-limit-middleware');
 const userRoutes = require('./src/routes/user-routes');
 const liveRoutes = require('./src/routes/live-routes');
-const cors = require('cors'); // Import CORS
+const videoRoutes = require('./src/routes/video-routes'); // Import des routes vidéos
 
 require('dotenv').config({ path: '../../.env' });
 require('./src/config/passport-setup');
@@ -21,11 +22,11 @@ const { Server } = require('socket.io'); // Optionnel, pour vérifier si une aut
 const app = express();
 const server = http.createServer(app); // Associer Express à un serveur HTTP
 
-// Configurer les CORS
+// Configurer les CORS pour autoriser FlutLab.io
 app.use(cors({
-  origin: '*', // Autorise toutes les origines (temporaire pour les tests)
+  origin: '*', // Autoriser tout
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
+  credentials: true, // Permettre l'envoi de cookies si nécessaire
 }));
 
 // Middleware pour Express
@@ -79,6 +80,9 @@ app.get('/dashboard', checkAuthentication, (req, res) => {
 
 // Routes utilisateur
 app.use('/users', userRoutes);
+
+// Routes vidéo
+app.use('/videos', videoRoutes);
 
 // Initialisation du serveur WebRTC
 signalingServer.start(server);
