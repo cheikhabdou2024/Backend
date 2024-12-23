@@ -1,3 +1,4 @@
+// Updated app.js with CORS configuration
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
@@ -9,6 +10,7 @@ const globalErrorHandler = require('./src/middlewares/error-middleware');
 const rateLimiter = require('./src/middlewares/rate-limit-middleware');
 const userRoutes = require('./src/routes/user-routes');
 const liveRoutes = require('./src/routes/live-routes');
+const cors = require('cors'); // Import CORS
 
 require('dotenv').config({ path: '../../.env' });
 require('./src/config/passport-setup');
@@ -18,6 +20,13 @@ const { Server } = require('socket.io'); // Optionnel, pour vérifier si une aut
 
 const app = express();
 const server = http.createServer(app); // Associer Express à un serveur HTTP
+
+// Configurer les CORS
+app.use(cors({
+  origin: '*', // Autorise toutes les origines (temporaire pour les tests)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 // Middleware pour Express
 app.use(express.json()); // Permet d'analyser les requêtes JSON
@@ -77,7 +86,6 @@ signalingServer.start(server);
 // Gestion globale des erreurs
 app.use(globalErrorHandler);
 
-
 // Ajouter les routes de gestion des lives
 app.use('/live', liveRoutes);
 
@@ -104,6 +112,3 @@ const initializeServer = async () => {
 };
 
 initializeServer();
-
-
-
