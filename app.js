@@ -97,7 +97,7 @@ const initializeServer = async () => {
         console.log('Connexion à PostgreSQL établie.');
 
         // Synchroniser les modèles avec la base de données
-        await sequelize.sync({ force: true });
+        await sequelize.sync({ alter: true });
         console.log('Modèles synchronisés avec la base de données.');
 
         // Démarrer le serveur
