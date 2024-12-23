@@ -24,7 +24,7 @@ const server = http.createServer(app); // Associer Express à un serveur HTTP
 
 // Configurer les CORS pour autoriser FlutLab.io
 app.use(cors({
-  origin: '*', // Autoriser tout
+  origin: 'https://flutlab.io', // Autoriser tout
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // Permettre l'envoi de cookies si nécessaire
 }));
