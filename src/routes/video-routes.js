@@ -1,14 +1,18 @@
 const express = require('express');
-const { addVideo, getAllVideos, getVideoById } = require('../controllers/video-controller');
+const { 
+  addVideo, 
+  getAllVideos, 
+  incrementViewCount, 
+  toggleLike 
+} = require('../controllers/video-controller');
 const router = express.Router();
 
-// Ajouter une vidéo
+// Existing routes
 router.post('/', addVideo);
-
-// Récupérer toutes les vidéos
 router.get('/', getAllVideos);
 
-// Récupérer une vidéo spécifique par ID
-router.get('/:id', getVideoById);
+// New routes
+router.post('/:id/view', incrementViewCount);
+router.post('/:videoId/like', toggleLike);
 
 module.exports = router;
