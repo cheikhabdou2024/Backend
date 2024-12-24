@@ -27,6 +27,27 @@ const Video = sequelize.define('Video', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  // New fields
+  viewCount: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  likeCount: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  duration: {
+    type: DataTypes.INTEGER, // Duration in seconds
+    allowNull: true,
+  },
+  hashtags: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    defaultValue: [],
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
 }, {
   timestamps: true,
 });
