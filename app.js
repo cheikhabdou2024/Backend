@@ -13,6 +13,8 @@ const userRoutes = require('./src/routes/user-routes');
 const liveRoutes = require('./src/routes/live-routes');
 const videoRoutes = require('./src/routes/video-routes'); // Import des routes vidéos
 const commentRoutes = require('./src/routes/comment-routes');
+const likeRoutes = require('./src/routes/like-routes');
+
 
 
 require('dotenv').config({ path: '../../.env' });
@@ -87,6 +89,8 @@ app.use('/users', userRoutes);
 app.use('/videos', videoRoutes);
 
 app.use('/comments', commentRoutes);
+app.use('/likes', likeRoutes);
+
 
 
 // Initialisation du serveur WebRTC
