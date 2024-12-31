@@ -86,6 +86,9 @@ app.use('/users', userRoutes);
 // Routes vidéo
 app.use('/videos', videoRoutes);
 
+app.use('/comments', commentRoutes);
+
+
 // Initialisation du serveur WebRTC
 signalingServer.start(server);
 
