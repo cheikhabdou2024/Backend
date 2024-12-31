@@ -10,8 +10,6 @@ router.get('/:id', getUser);
 router.put('/:id', validateUserUpdate, updateUser);
 
 
-// New route for detailed user profile
-router.get('/details/:id', getUserWithDetails);
 
 module.exports = router;
 
