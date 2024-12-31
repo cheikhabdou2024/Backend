@@ -1,7 +1,9 @@
 const User = require('../models/User'); // Modèle Sequelize
+const Video = require('../models/Video'); // Import the Video model
+const Like = require('../models/Like'); // Import the Like model
 const redisClient = require('../config/redis'); // Import de Redis
 
-// Fonction pour obtenir les détails d'un utilisateur avec Redis
+// Fonction pour obtenir les détails d'un utilisateur avec Redis et détails enrichis
 const getUser = async (req, res) => {
     const userId = req.params.id;
 
@@ -20,22 +22,40 @@ const getUser = async (req, res) => {
             }
 
             // Si l'utilisateur n'est pas dans le cache, récupérer depuis PostgreSQL
-            const user = await User.findByPk(userId);
+            const user = await User.findByPk(userId, {
+                include: [
+                    {
+                        model: Video,
+                        as: 'videos',
+                        attributes: ['id', 'title', 'description', 'url', 'createdAt'],
+                    },
+                    {
+                        model: Like,
+                        as: 'userLikes',
+                        include: {
+                            model: Video,
+                            as: 'video',
+                            attributes: ['id', 'title', 'url'],
+                        },
+                    },
+                ],
+                attributes: ['id', 'displayName', 'profilePhoto', 'email'],
+            });
 
             if (!user) {
                 return res.status(404).json({ error: 'Utilisateur non trouvé' });
             }
 
-            // Stocker l'utilisateur dans Redis pour une durée de 1 heure
+            // Stocker l'utilisateur enrichi dans Redis pour une durée de 1 heure
             redisClient.setex(userId, 3600, JSON.stringify(user), (err) => {
                 if (err) {
                     console.error(`Erreur lors de la mise en cache de l'utilisateur ${userId} :`, err);
                 } else {
-                    console.log(`Utilisateur ${userId} mis en cache avec succès.`);
+                    console.log(`Utilisateur enrichi ${userId} mis en cache avec succès.`);
                 }
             });
 
-            // Retourner l'utilisateur
+            // Retourner l'utilisateur enrichi
             res.json(user);
         });
     } catch (error) {
@@ -81,9 +101,3 @@ const updateUser = async (req, res) => {
 
 // Exporter les fonctions
 module.exports = { getUser, updateUser };
-
-
-
-
-
-
