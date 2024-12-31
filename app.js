@@ -12,6 +12,8 @@ const rateLimiter = require('./src/middlewares/rate-limit-middleware');
 const userRoutes = require('./src/routes/user-routes');
 const liveRoutes = require('./src/routes/live-routes');
 const videoRoutes = require('./src/routes/video-routes'); // Import des routes vidéos
+const commentRoutes = require('./src/routes/comment-routes');
+
 
 require('dotenv').config({ path: '../../.env' });
 require('./src/config/passport-setup');
